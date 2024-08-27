@@ -11,23 +11,23 @@ class Kinopoisk_Api:
         return response
     
     @allure.step("api. Получение информации о фильме по названию")
-    def search_film_name(self, headers, name):
+    def search_film_name(self, name, headers):
         my_params = {
             'page' : '1',
             'limit' : '1',
             'query' : name
          }
-        response = requests.get(self.url+'/movie/'+'/search/', params = my_params, headers=headers)
+        response = requests.get(self.url+'/movie/search/', params = my_params, headers=headers)
         return response
     
     @allure.step("api. Получение информации о фильме по году выхода")
     def search_film_date(self, date, headers):
         my_params = {
-            'page' : '1',
-            'limit' : '10',
+            'page' : 1,
+            'limit' : 10,
             'year' : date
          }
-        response = requests.get(self.url+'/movie/'+'/search/', params = my_params, headers=headers)
+        response = requests.get(self.url+'/movie/search/', params = my_params, headers=headers)
         return response
     
     @allure.step("api. Получение информации об актере по {id}")
@@ -36,12 +36,12 @@ class Kinopoisk_Api:
         return response
     
     @allure.step("api. Получение информации об актере по имени и фамилии")
-    def search_actor_name(self, headers, name):
+    def search_actor_name(self, name, headers):
         my_params = {
-            'page' : '1',
-            'limit' : '10',
-            'query' : name
+            "page": 1,
+            "limit": 10,
+            "query": name
          }
-        response = requests.get(self.url+'/person/'+'/search/', params = my_params, headers=headers)
+        response = requests.get(self.url+'/person/search/', params = my_params, headers=headers)
         return response
     

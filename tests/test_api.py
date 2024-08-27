@@ -19,9 +19,9 @@ headers = {
 def test_search_film_id():
  with allure.step("Получить фильм по id"):
     res = api.search_film_id(4742878, headers)
-    film_id = res.json()['id'][0]
+    film_id = res.json()['id']
  with allure.step("Проверка id полученного фильма"):
-    assert film_id == "4742878"
+    assert film_id == 4742878
  with allure.step("Проверка статус кода"):
     assert res.status_code == 200
 
@@ -32,8 +32,8 @@ def test_search_film_id():
 @allure.feature('Тест 2')
 def test_search_film_name():
  with allure.step("Получить фильм по названию"):
-    res = api.search_film_name(headers, 'Один дома')
-    film_name = res.json()['docs'][0]['name']
+    res = api.search_film_name("Один дома", headers)
+    film_name = res.json()['docs']['name']
  with allure.step("Проверка названия полученного фильма"):
     assert film_name == "Один дома"
  with allure.step("Проверка статус кода"):
@@ -47,7 +47,7 @@ def test_search_film_name():
 def test_search_film_date():
  with allure.step("Получение фильма по дате выхода"):
     resp = api.search_film_date(2021, headers)
-    response = resp.json()['dosc'][0]['year']
+    response = resp.json()['docs'][0]['year']
  with allure.step("Проверка года выхода фильма"):
     assert response == 2021
  with allure.step("Проверка статус кода"):
@@ -61,9 +61,9 @@ def test_search_film_date():
 def test_search_actor_id():
  with allure.step("Получение информации об актере по id"):
     res = api.search_actor_id(1775081, headers)
-    actor_id = res.json()[0]['id']
+    actor_id = res.json()['id']
  with allure.step("Проверка id актера"):
-    assert actor_id == "1775081"
+    assert actor_id == 1775081
  with allure.step("Проверка статус кода"):
     assert res.status_code == 200
 
@@ -74,9 +74,10 @@ def test_search_actor_id():
 @allure.feature('Тест 5')
 def test_search_actor_name():
  with allure.step("Получение информации об актере по имени и фамили"):
-    res = api.search_film_name(headers, 'Тихон Жизневский')
-    actor_name = res.json()['docs'][0]['name']
- with allure.step("Првоерка имени и фамилии актера"):
+    res = api.search_film_name('Тихон Жизневский', headers)
+    actor_name = res.json()['name']
+ with allure.step("Проверка имени и фамилии актера"):
     assert actor_name == "Тихон Жизневский"
  with allure.step("Проверка статус кода"):
     assert res.status_code == 200
+    print(res)

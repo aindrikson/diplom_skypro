@@ -1,14 +1,15 @@
 from Pages.api_class import Kinopoisk_Api
-import json
+from Pages.param import api_key
+from Pages.param import kinopoisk_api_url
 import pytest
 import requests
 import allure
 
-api = Kinopoisk_Api('https://api.kinopoisk.dev/v1.4')
+api = Kinopoisk_Api(kinopoisk_api_url)
         
 headers = {
 "accept": "application/json",
-"X-API-KEY": "N0GKKMM-82CMAP1-PA8MZS0-VNEF6KE"
+"X-API-KEY": api_key
 }    
 
 @allure.epic("Films")
@@ -33,9 +34,9 @@ def test_search_film_id():
 def test_search_film_name():
  with allure.step("Получить фильм по названию"):
     res = api.search_film_name("Один дома", headers)
-    film_name = res.json()['docs']['name']
+    film_name = res.json()['docs'][0]['name']
  with allure.step("Проверка названия полученного фильма"):
-    assert film_name == "Один дома"
+    assert film_name == 'Один дома'
  with allure.step("Проверка статус кода"):
     assert res.status_code == 200
 
@@ -46,10 +47,10 @@ def test_search_film_name():
 @allure.feature('Тест 3')
 def test_search_film_date():
  with allure.step("Получение фильма по дате выхода"):
-    resp = api.search_film_date(2021, headers)
+    resp = api.search_film_date(2011, headers)
     response = resp.json()['docs'][0]['year']
  with allure.step("Проверка года выхода фильма"):
-    assert response == 2021
+    assert response == 2011
  with allure.step("Проверка статус кода"):
     assert resp.status_code == 200
 
@@ -74,10 +75,9 @@ def test_search_actor_id():
 @allure.feature('Тест 5')
 def test_search_actor_name():
  with allure.step("Получение информации об актере по имени и фамили"):
-    res = api.search_film_name('Тихон Жизневский', headers)
-    actor_name = res.json()['name']
+    res = api.search_film_name("Павел Корчагин", headers)
+    actor_name = res.json()['docs'][0]['name']
  with allure.step("Проверка имени и фамилии актера"):
-    assert actor_name == "Тихон Жизневский"
+    assert actor_name == 'Павел Корчагин'
  with allure.step("Проверка статус кода"):
     assert res.status_code == 200
-    print(res)

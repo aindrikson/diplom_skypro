@@ -1,12 +1,13 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from Pages.param import kinopoisk_ui_url
 import allure
 
 class Kinopoisk:
     def __init__(self, driver):
         self.driver = driver
-        self.driver.get("https://www.kinopoisk.ru/")
+        self.driver.get(kinopoisk_ui_url)
         self.driver.maximize_window()
         self.driver.implicitly_wait(10)
 
